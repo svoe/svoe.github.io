@@ -1,6 +1,9 @@
 body {
-	background-image: background-image: -webkit-linear-gradient(white 0%, #9FBFD2 100%); 
-	background-image: -moz-linear-gradient(white 0%, #9FBFD2 100%); 
-	background-image: -o-linear-gradient(white 0%, #9FBFD2 100%); 
-	background-image: linear-gradient(white 0%, #9FBFD2 100%);";
+	background-color: #666;
+	color: #fff;
+}
+#main {
+	width: 400px;
+	margin: auto;
+	background-color: #333;
 }
