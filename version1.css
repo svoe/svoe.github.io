@@ -1,28 +1,53 @@
 body {
-	background-color: #666;
-	color: #fff;
+        background-color: #666;
+        color: #fff;
+		text-align: center;
 }
 #main {
-	width: 600px;
-	min-height: 400px;
-	top: 20px;
-	margin: auto;
-	background-color: #333;
-	border: 2px solid #ccc;
-	box-shadow: 0px 0px 15px #AAA;
+        width: 600px;
+        min-height: 400px;
+        top: 20px;
+        margin: auto;
+		padding: 10px;
+        background-color: #333;
+        border: 2px solid #ccc;
+        box-shadow: 0px 0px 15px #AAA;
+}
+hr {
+	margin-left: -10px;
+	margin-right: -10px;
 }
 #main > h1 {
-	text-align: center;
+        text-align: center;
 }
 #main > ul >a >li {
-	display: inline-block;
-	background-color: #aaa;
-	width: 30%;
-	line-height: 25px;
-	text-align: center;
-	box-shadow: 0px 0px 5px #aaa;
+        display: inline-block;
+        background-color: #aaa;
+        width: 30%;
+        line-height: 25px;
+        text-align: center;
+        box-shadow: 0px 0px 5px #aaa;
 }
 a {
-	color: #fff;
-	font-weight: bold;
+        color: #fff;
+        font-weight: bold;
+}
+form {
+	width: 150px;
+	border: 1px solid #0C5DA5;
+	padding: 10px;
+	margin: auto;
+	margin-bottom: 10px;
+	background-color: #888;
+	border: 1px solid #00ff00;
+	font-size: 18px;
+}
+form > input, form > select {
+	margin-bottom: 10px;
+}
+#fehler {
+	color: #666;
+	background-color: #eee;
+	border: 2px solid #ff0000;
+	margin: 10px;
 }
