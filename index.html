@@ -22,7 +22,7 @@
 		<p id="text1">Bitte gib eine Zahl ein, die umgerechnet werden soll:</p>
 		<form name="eingabe">
 			Zahl:<br \> 
-			<input type="number" name="number" size="6"\><br \>
+			<input type="number" name="number" size="10"\><br \>
 			Basis:<br \>
 			<select name="base">
 				<option value="2">2</option>
@@ -42,23 +42,21 @@
 			function convert(){
 //Variablen
 				var fehler = "";
-				number = document.eingabe.number.value;
+				number = document.eingabe.number.value.toUpperCase();
 				base = document.eingabe.base.value;
 				conv_base = document.eingabe.conv_base.value;
-//				document.getElementById("text1").innerHTML="Testitest";
-//				alert("test");
+				var alphabet = "0123456789abcdefghijklmnopqrstuvwxyz".toUpperCase().split("");
 
 //Funktion: number passt zu base?				
 				function base_symbol(base1,number1){
 					if (base1 == 2){
-						var symb = /^[01]*[.,]{0,1}[01]+$/;
+						var symb = /^[01]*[,]{0,1}[01]+$/;
 					}else if (base1 == 10){
-						var symb = /^[0-9]*[.,]{0,1}[0-9]+$/;
+						var symb = /^[0-9]*[,]{0,1}[0-9]+$/;
 					}else if (base1 == 16){
-						var symb = /^[0-9A-Fa-f]*[.,]{0,1}[0-9A-Fa-f]+$/;
+						var symb = /^[0-9A-Fa-f]*[,]{0,1}[0-9A-F]+$/;
 					}
-					var result = symb.test(number1);
-					if (result == true){
+					if (symb.test(number1) == true){
 						return true;
 					}else{
 						return false;
@@ -80,17 +78,44 @@
 //..irgendwie anders
 				document.getElementById("text1").innerHTML="<p id='fehler'>Folgender Fehler ist aufgetreten:<br /><b>" + fehler + "<br /></b>Bitte gib etwas anderes ein:</p>";
 				}else{
-					number *= 1;
-					var conv_number = number.toString(conv_base);
-					alert(number + " -> " + conv_number);
-					var num_array = number.split("");
-//Zahlen in Vor- & Nachkommastellen teilen:
-/*					while(i<=num_array.length){
-						
-						i++;
+					var num_array = number.split(",");
+					num_array0 = num_array[0].split("").reverse();
+					var base1 = 1;
+					var conv_num = 0;
+					
+					for(var i=0;i<num_array0.length;i++){
+						conv_num = alphabet.indexOf(num_array0[i])*base1+conv_num;
+						base1 = base * base1;
 					}
-*/
-				
+
+//Nachkommastellen ausrechnen, falls vorhanden
+					if (num_array.length > 1) {
+						num_array1 = num_array[1].split("");
+						base1 = 1;
+						for(var i=0;i<num_array1.length;i++){
+							base1 /= base;
+							conv_num += alphabet.indexOf(num_array1[i])*base1;
+						}
+					}
+//In Ziel-Base umrechnen, falls nötig
+					if (conv_base == 10){
+						alert(conv_num);
+					}else{
+						var x = 1;
+						while(x>0){
+							var y;
+							var z;
+							y = floor(conv_num/base);
+							if (y != 0){
+								z.push.alphabet.indexOf(y);
+								y = conv_num%base;
+							}else{
+							alert(z[0]);
+							x=0;
+							}
+							alert(conv_num + " und " + y + " und " + base);
+						}
+					}
 				}
 			}
 		</script>
