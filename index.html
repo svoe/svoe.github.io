@@ -16,6 +16,84 @@
 			<a href="#"><li>baz</li></a>
 		</ul>
 		<hr>
+		<h1>Konvertierungsprogramm</h1>
+		<p>Hausaufgabe Lernfeld 6</p>
+		<hr>
+		<p id="text1">Bitte gib eine Zahl ein, die umgerechnet werden soll:</p>
+		<form name="eingabe">
+			Zahl:<br \> 
+			<input type="number" name="number" size="6"\><br \>
+			Basis:<br \>
+			<select name="base">
+				<option value="2">2</option>
+				<option value="10">10</option>
+				<option value="16">16</option>
+			</select><br \>
+			Ziel-Basis:<br \>
+			<select name="conv_base">
+				<option value="2">2</option>
+				<option value="10">10</option>
+				<option value="16">16</option>
+			</select><br \>
+			<button type="button" onClick="convert()">OK</button>
+		</form>
+
+		<script>
+			function convert(){
+//Variablen
+				var fehler = "";
+				number = document.eingabe.number.value;
+				base = document.eingabe.base.value;
+				conv_base = document.eingabe.conv_base.value;
+//				document.getElementById("text1").innerHTML="Testitest";
+//				alert("test");
+
+//Funktion: number passt zu base?				
+				function base_symbol(base1,number1){
+					if (base1 == 2){
+						var symb = /^[01]*[.,]{0,1}[01]+$/;
+					}else if (base1 == 10){
+						var symb = /^[0-9]*[.,]{0,1}[0-9]+$/;
+					}else if (base1 == 16){
+						var symb = /^[0-9A-Fa-f]*[.,]{0,1}[0-9A-Fa-f]+$/;
+					}
+					var result = symb.test(number1);
+					if (result == true){
+						return true;
+					}else{
+						return false;
+					}
+				}
+				
+//WENN number==0||base==conv_base||number passt nicht zu base -> fehler				
+				if (number==0||typeof number == "undefined"){
+					fehler = "Die eingegebene Zahl ist nicht gültig.";
+				}else if (base_symbol(base,number)!=true){
+					fehler = "Die angegebene Zahl enthält Zeichen, die nicht zur ausgewählten Basis passen.";
+				}else if (base==conv_base){
+					fehler = "Basis und Ziel-Basis dürfen nicht identisch sein.";
+				}
+//				alert("Es gibt folgende Fehler: " + fehler);
+				
+//Gibt es Fehler?
+				if (fehler != ""){
+//..irgendwie anders
+				document.getElementById("text1").innerHTML="<p id='fehler'>Folgender Fehler ist aufgetreten:<br /><b>" + fehler + "<br /></b>Bitte gib etwas anderes ein:</p>";
+				}else{
+					number *= 1;
+					var conv_number = number.toString(conv_base);
+					alert(number + " -> " + conv_number);
+					var num_array = number.split("");
+//Zahlen in Vor- & Nachkommastellen teilen:
+/*					while(i<=num_array.length){
+						
+						i++;
+					}
+*/
+				
+				}
+			}
+		</script>
 	</div>
 </body>
 </html>
