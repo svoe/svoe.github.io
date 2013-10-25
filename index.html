@@ -6,30 +6,30 @@
 <link href="version1.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-	<div id="main">
-		<h1>codegirls: hackerblog</h1>
-		<hr>
-		<hr>
-		<ul>
-			<a href="#"><li>foo</li></a>
-			<a href="#"><li>bar</li></a>	
-			<a href="#"><li>baz</li></a>
-		</ul>
-		<hr>
-		<h1>Konvertierungsprogramm</h1>
+        <div id="main">
+                <h1>codegirls: hackerblog</h1>
+                <hr>
+                <hr>
+                <ul>
+                        <a href="#"><li>foo</li></a>
+                        <a href="#"><li>bar</li></a>        
+                        <a href="#"><li>baz</li></a>
+                </ul>
+                <hr>
+                <h1>Konvertierungsprogramm</h1>
 		<p>Hausaufgabe Lernfeld 6</p>
 		<hr>
 		<p id="text1">Bitte gib eine Zahl ein, die umgerechnet werden soll:</p>
 		<form name="eingabe">
-			Zahl:<br \> 
+			<p>Zahl:</p>
 			<input type="number" name="number" size="10"\><br \>
-			Basis:<br \>
+			<p>Basis:</p>
 			<select name="base">
 				<option value="2">2</option>
 				<option value="10">10</option>
 				<option value="16">16</option>
 			</select><br \>
-			Ziel-Basis:<br \>
+			<p>Ziel-Basis:</p>
 			<select name="conv_base">
 				<option value="2">2</option>
 				<option value="10">10</option>
@@ -37,6 +37,7 @@
 			</select><br \>
 			<button type="button" onClick="convert()">OK</button>
 		</form>
+		<p id="text2"></p>
 
 		<script>
 			function convert(){
@@ -47,7 +48,8 @@
 				conv_base = document.eingabe.conv_base.value;
 				var alphabet = "0123456789abcdefghijklmnopqrstuvwxyz".toUpperCase().split("");
 
-//Funktion: number passt zu base?				
+//Funktion: number passt zu base?
+//! Andere base möglich? RegEx berechnen?				
 				function base_symbol(base1,number1){
 					if (base1 == 2){
 						var symb = /^[01]*[,]{0,1}[01]+$/;
@@ -71,54 +73,53 @@
 				}else if (base==conv_base){
 					fehler = "Basis und Ziel-Basis dürfen nicht identisch sein.";
 				}
-//				alert("Es gibt folgende Fehler: " + fehler);
 				
-//Gibt es Fehler?
+//Falls Fehler -> Fehlerausgabe
 				if (fehler != ""){
-//..irgendwie anders
-				document.getElementById("text1").innerHTML="<p id='fehler'>Folgender Fehler ist aufgetreten:<br /><b>" + fehler + "<br /></b>Bitte gib etwas anderes ein:</p>";
-				}else{
-					var num_array = number.split(",");
-					num_array0 = num_array[0].split("").reverse();
-					var base1 = 1;
-					var conv_num = 0;
-					
-					for(var i=0;i<num_array0.length;i++){
-						conv_num = alphabet.indexOf(num_array0[i])*base1+conv_num;
-						base1 = base * base1;
-					}
+				document.getElementById("text1").innerHTML="<p id='fehler'>Folgender Fehler ist aufgetreten:<br /><br /><b>" + fehler + "<br /><br /></b>Bitte gib etwas anderes ein:</p>";
+				}else{					
+//Nach Basis 10 umrechnen, falls nötig
+					if(base != 10){
+						var num_array = number.split(",");
+						num_array0 = num_array[0].split("").reverse();
+						var base1 = 1;
+						var conv_num = 0;
+						for(var i=0;i<num_array0.length;i++){
+							conv_num = alphabet.indexOf(num_array0[i])*base1+conv_num;
+							base1 = base * base1;
+						}
 
 //Nachkommastellen ausrechnen, falls vorhanden
-					if (num_array.length > 1) {
-						num_array1 = num_array[1].split("");
-						base1 = 1;
-						for(var i=0;i<num_array1.length;i++){
-							base1 /= base;
-							conv_num += alphabet.indexOf(num_array1[i])*base1;
+						if (num_array.length > 1) {
+							num_array1 = num_array[1].split("");
+							base1 = 1;
+							for(var i=0;i<num_array1.length;i++){
+								base1 /= base;
+								conv_num += alphabet.indexOf(num_array1[i])*base1;
+							}
 						}
+					}else{
+						var conv_num = number;
 					}
 //In Ziel-Base umrechnen, falls nötig
+					var new_conv_num = new Array();
 					if (conv_base == 10){
-						alert(conv_num);
 					}else{
-						var x = 1;
-						while(x>0){
-							var y;
-							var z;
-							y = floor(conv_num/base);
-							if (y != 0){
-								z.push.alphabet.indexOf(y);
-								y = conv_num%base;
-							}else{
-							alert(z[0]);
-							x=0;
-							}
-							alert(conv_num + " und " + y + " und " + base);
+						while(conv_num != 0){
+							var rest = conv_num%conv_base;
+							conv_num = Math.floor(conv_num/conv_base);
+							rest = alphabet[rest];
+							new_conv_num.unshift(rest);
+							}						
+						conv_num = new_conv_num.join(new_conv_num);
 						}
+					document.getElementById("text1").innerHTML="<p>Bitte gib eine Zahl ein, die umgerechnet werden soll:</p>";
+					document.getElementById("text2").innerHTML="<p id='ergebnis'>Ergebnis:<br /></p><p id='ausgabe'>(" + number + ")<sub>"+ base + "</sub> = (" + conv_num + ")<sub>" + conv_base + "</sub></p>";
 					}
 				}
-			}
+			
 		</script>
-	</div>
+        </div>
 </body>
 </html>
+
