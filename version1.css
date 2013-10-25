@@ -42,6 +42,9 @@ form {
 	border: 1px solid #00ff00;
 	font-size: 18px;
 }
+form >p {
+	margin: 5px;
+}
 form > input, form > select {
 	margin-bottom: 10px;
 }
@@ -50,4 +53,14 @@ form > input, form > select {
 	background-color: #eee;
 	border: 2px solid #ff0000;
 	margin: 10px;
+}
+#ausgabe {
+	background-color: #fff;
+	border: 2px solid #00ff00;
+	line-height: 25px;
+	text-align: center;
+}
+#ergebnis {
+	font-weight: bold;
+	text-decoration: underline;
 }
