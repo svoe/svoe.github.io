@@ -11,6 +11,7 @@
                 <hr>
                 <hr>
                 <ul>
+<!--LI nicht in A!-->
                         <a href="#"><li>foo</li></a>
                         <a href="#"><li>bar</li></a>        
                         <a href="#"><li>baz</li></a>
@@ -22,7 +23,7 @@
 		<p id="text1">Bitte gib eine Zahl ein, die umgerechnet werden soll:</p>
 		<form name="eingabe">
 			<p>Zahl:</p>
-			<input type="number" name="number" size="10"\><br \>
+			<input type="text" name="number" size="10"\><br \>
 			<p>Basis:</p>
 			<select name="base">
 				<option value="2">2</option>
@@ -47,8 +48,11 @@
 				base = document.eingabe.base.value;
 				conv_base = document.eingabe.conv_base.value;
 				var alphabet = "0123456789abcdefghijklmnopqrstuvwxyz".toUpperCase().split("");
-
+				var circa = "";
+				var conv_num = 0;
+				
 //Funktion: number passt zu base?
+//!Punkt zulassen & Komma -> Punkt, Ausgabe als Zahl mit Komma
 //! Andere base möglich? RegEx berechnen?				
 				function base_symbol(base1,number1){
 					if (base1 == 2){
@@ -63,8 +67,7 @@
 					}else{
 						return false;
 					}
-				}
-				
+				}				
 //WENN number==0||base==conv_base||number passt nicht zu base -> fehler				
 				if (number==0||typeof number == "undefined"){
 					fehler = "Die eingegebene Zahl ist nicht gültig.";
@@ -72,23 +75,20 @@
 					fehler = "Die angegebene Zahl enthält Zeichen, die nicht zur ausgewählten Basis passen.";
 				}else if (base==conv_base){
 					fehler = "Basis und Ziel-Basis dürfen nicht identisch sein.";
-				}
-				
-//Falls Fehler -> Fehlerausgabe
+				}				
+//Falls falsche Eingabe -> Fehlerausgabe
 				if (fehler != ""){
 				document.getElementById("text1").innerHTML="<p id='fehler'>Folgender Fehler ist aufgetreten:<br /><br /><b>" + fehler + "<br /><br /></b>Bitte gib etwas anderes ein:</p>";
 				}else{					
-//Nach Basis 10 umrechnen, falls nötig
-					if(base != 10){
+//Nach Basis 10 umrechnen, falls base!=10
+					if(base != 10){						
 						var num_array = number.split(",");
 						num_array0 = num_array[0].split("").reverse();
 						var base1 = 1;
-						var conv_num = 0;
 						for(var i=0;i<num_array0.length;i++){
 							conv_num = alphabet.indexOf(num_array0[i])*base1+conv_num;
 							base1 = base * base1;
-						}
-
+						}						
 //Nachkommastellen ausrechnen, falls vorhanden
 						if (num_array.length > 1) {
 							num_array1 = num_array[1].split("");
@@ -100,21 +100,43 @@
 						}
 					}else{
 						var conv_num = number;
-					}
+					}					
 //In Ziel-Base umrechnen, falls nötig
 					var new_conv_num = new Array();
-					if (conv_base == 10){
-					}else{
-						while(conv_num != 0){
-							var rest = conv_num%conv_base;
-							conv_num = Math.floor(conv_num/conv_base);
+					if (conv_base != 10){
+						var conv_num0 = 0;
+						conv_num = conv_num.toString();
+						var conv_num_arr = conv_num.split(",");
+						conv_num0 = conv_num_arr[0];
+						do{
+							var rest = conv_num0%conv_base;
+							conv_num0 = Math.floor(conv_num0/conv_base);
 							rest = alphabet[rest];
 							new_conv_num.unshift(rest);
-							}						
-						conv_num = new_conv_num.join(new_conv_num);
+							}while(conv_num0 != 0);							
+//Nachkommastellen umrechnen, falls nötig
+						if(conv_num_arr.length>1){
+							new_conv_num.push(",");
+							var new_conv_num1 = new Array();
+							conv_num1 = Number("0." + conv_num_arr[1]);
+							do{
+								var add_num = Math.floor(conv_num1*conv_base);
+								conv_num1 = conv_num1 * conv_base - add_num;
+								var add_sym = alphabet[add_num];
+								new_conv_num1.push(add_sym);
+//Fügt ~ hinzu, falls zu viele Nachkommastellen
+								if (new_conv_num1.length >= 6){
+									circa = "~";									
+								};
+							}while(new_conv_num1.length <= 6&&conv_num1!=0);
+//Fügt Vor- & Nachkommastellen zusammen
+							new_conv_num = new_conv_num.concat(new_conv_num1);
 						}
+						conv_num = new_conv_num.join("");
+						}
+//~ falls Nachkommazahl gerundet
 					document.getElementById("text1").innerHTML="<p>Bitte gib eine Zahl ein, die umgerechnet werden soll:</p>";
-					document.getElementById("text2").innerHTML="<p id='ergebnis'>Ergebnis:<br /></p><p id='ausgabe'>(" + number + ")<sub>"+ base + "</sub> = (" + conv_num + ")<sub>" + conv_base + "</sub></p>";
+					document.getElementById("text2").innerHTML="<p id='ergebnis'>Ergebnis:<br /></p><p id='ausgabe'>(" + number + ")<sub>"+ base + "</sub> = " + circa + "(" + conv_num + ")<sub>" + conv_base + "</sub></p>";					
 					}
 				}
 			
