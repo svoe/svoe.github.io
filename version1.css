@@ -59,6 +59,7 @@ form > input, form > select {
 	border: 2px solid #00ff00;
 	line-height: 25px;
 	text-align: center;
+	color: #666;
 }
 #ergebnis {
 	font-weight: bold;
