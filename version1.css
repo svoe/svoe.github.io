@@ -48,7 +48,7 @@ form >p {
 form > input, form > select {
 	margin-bottom: 10px;
 }
-#fehler {
+#error {
 	color: #666;
 	background-color: #eee;
 	border: 2px solid #ff0000;
