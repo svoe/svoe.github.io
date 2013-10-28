@@ -1,9 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>hackerblog</title>
-<meta charset="utf-8" />
-<link href="version1.css" rel="stylesheet" type="text/css">
+	<title>Konvertierungsprogramm</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="cache-control" content="no-cache"/>
+	<meta name="robots" content="index, follow"/>
+	<meta name="author" content="Svoe" />
+	<meta name="description" content="Diese Website rechnet Zahlen von einer Basis zwischen 2 - 36 in eine andere um." />
+	<meta name="keywords" content="Konvertierung, Basis, Javascript, Blablubb" />
+	<meta name="language" content="DE,CH,AT"/>
+	<meta name="audience" content="alle"/>
+	<link href="version1.css" rel="stylesheet" type="text/css">
 </head>
 <body>
         <div id="main">
@@ -19,67 +27,136 @@
                 <hr>
                 <h1>Konvertierungsprogramm</h1>
 		<p>Hausaufgabe Lernfeld 6</p>
-		<hr>
-		<p id="text1">Bitte gib eine Zahl ein, die umgerechnet werden soll:</p>
+		<hr/>
+		<p id="text1">Bitte gib eine Zahl ein, die in eine andere Basis umgerechnet werden soll:</p>
 		<form name="eingabe">
 			<p>Zahl:</p>
 			<input type="text" name="number" size="10"\><br \>
 			<p>Basis:</p>
 			<select name="base">
 				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+				<option value="5">5</option>
+				<option value="6">6</option>
+				<option value="7">7</option>
+				<option value="8">8</option>
+				<option value="9">9</option>
 				<option value="10">10</option>
+				<option value="11">11</option>
+				<option value="12">12</option>
+				<option value="13">13</option>
+				<option value="14">14</option>
+				<option value="15">15</option>
 				<option value="16">16</option>
+				<option value="17">17</option>
+				<option value="18">18</option>
+				<option value="19">19</option>
+				<option value="20">20</option>
+				<option value="21">21</option>
+				<option value="22">22</option>
+				<option value="23">23</option>
+				<option value="24">24</option>
+				<option value="25">25</option>
+				<option value="26">26</option>
+				<option value="27">27</option>
+				<option value="28">28</option>
+				<option value="29">29</option>
+				<option value="30">30</option>
+				<option value="31">31</option>
+				<option value="32">32</option>
+				<option value="33">33</option>
+				<option value="34">34</option>
+				<option value="35">35</option>
+				<option value="36">36</option>
 			</select><br \>
 			<p>Ziel-Basis:</p>
 			<select name="conv_base">
 				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+				<option value="5">5</option>
+				<option value="6">6</option>
+				<option value="7">7</option>
+				<option value="8">8</option>
+				<option value="9">9</option>
 				<option value="10">10</option>
+				<option value="11">11</option>
+				<option value="12">12</option>
+				<option value="13">13</option>
+				<option value="14">14</option>
+				<option value="15">15</option>
 				<option value="16">16</option>
+				<option value="17">17</option>
+				<option value="18">18</option>
+				<option value="19">19</option>
+				<option value="20">20</option>
+				<option value="21">21</option>
+				<option value="22">22</option>
+				<option value="23">23</option>
+				<option value="24">24</option>
+				<option value="25">25</option>
+				<option value="26">26</option>
+				<option value="27">27</option>
+				<option value="28">28</option>
+				<option value="29">29</option>
+				<option value="30">30</option>
+				<option value="31">31</option>
+				<option value="32">32</option>
+				<option value="33">33</option>
+				<option value="34">34</option>
+				<option value="35">35</option>
+				<option value="36">36</option>
 			</select><br \>
 			<button type="button" onClick="convert()">OK</button>
 		</form>
 		<p id="text2"></p>
+
 		<script>
+//To do:
+//+ andere Basis? -> wie RegEx anpassen?
+//+ Punkt & Komma -> RegEx & replace()
+//- irgendwie hübscher
+//+ html-head-foo
+//- ordentlichere Comments?
+
 			function convert(){
 //Variablen
-				var fehler = "";
+				var error = "";
 				number = document.eingabe.number.value.toUpperCase();
 				base = document.eingabe.base.value;
 				conv_base = document.eingabe.conv_base.value;
 				var alphabet = "0123456789abcdefghijklmnopqrstuvwxyz".toUpperCase().split("");
 				var circa = "";
-				var conv_num = 0;
-				
-//Funktion: number passt zu base?
+				var conv_num = 0;				
+//Funktion: Nummer passt zur gewählten Basis?	
+//Holt die Symbole 0 - [Basis] aus dem Alphabet-Array, fügt sie zu einem String und prüft mit einem regulären Ausdruck, ob die Eingabe nur diese Zeichen enthält		
 				function base_symbol(base1,number1){
-					if (base1 == 2){
-						var symb = /^[01]*[,]{0,1}[01]+$/;
-					}else if (base1 == 10){
-						var symb = /^[0-9]*[,]{0,1}[0-9]+$/;
-					}else if (base1 == 16){
-						var symb = /^[0-9A-Fa-f]*[,]{0,1}[0-9A-F]+$/;
-					}
-					if (symb.test(number1) == true){
+					var symb = alphabet.slice(0,base).join("");
+					var regex = new RegExp("^[" + symb + "]*[,.]{0,1}[" + symb + "]+$");
+					if (regex.test(number1) == true){
 						return true;
 					}else{
 						return false;
 					}
-				}				
-//WENN number==0||base==conv_base||number passt nicht zu base -> fehler				
+				}			
+//Eingabe=0||Basis=Ziel-Basis||Eingabe passt nicht zur Basis -> Fehler
 				if (number==0||typeof number == "undefined"){
-					fehler = "Die eingegebene Zahl ist nicht gültig.";
+					error = "Die eingegebene Zahl ist nicht gültig.";
 				}else if (base_symbol(base,number)!=true){
-					fehler = "Die angegebene Zahl enthält Zeichen, die nicht zur ausgewählten Basis passen.";
+					error = "Die angegebene Zahl enthält Zeichen, die nicht zur ausgewählten Basis passen.";
 				}else if (base==conv_base){
-					fehler = "Basis und Ziel-Basis dürfen nicht identisch sein.";
+					error = "Basis und Ziel-Basis dürfen nicht identisch sein.";
 				}				
-//Falls falsche Eingabe -> Fehlerausgabe
-				if (fehler != ""){
-				document.getElementById("text1").innerHTML="<p id='fehler'>Folgender Fehler ist aufgetreten:<br /><br /><b>" + fehler + "<br /><br /></b>Bitte gib etwas anderes ein:</p>";
-				}else{					
+//Falls falsche Eingabe -> errorausgabe
+				if (error != ""){
+				document.getElementById("text1").innerHTML="<p id='error'>Folgender error ist aufgetreten:<br /><br /><b>" + error + "<br /><br /></b>Bitte gib etwas anderes ein.</p>";
+				document.getElementById("text2").innerHTML="";
+				}else{
+				number = number.replace(",",".");				
 //Nach Basis 10 umrechnen, falls base!=10
 					if(base != 10){						
-						var num_array = number.split(",");
+						var num_array = number.split(".");
 						num_array0 = num_array[0].split("").reverse();
 						var base1 = 1;
 						for(var i=0;i<num_array0.length;i++){
@@ -97,14 +174,13 @@
 						}
 					}else{
 						var conv_num = number;
-					}					
+					}			
 //In Ziel-Base umrechnen, falls nötig
 					var new_conv_num = new Array();
 					if (conv_base != 10){
 						var conv_num0 = 0;
 						conv_num = conv_num.toString();
-						conv_num = conv_num.replace(".",",");	
-						var conv_num_arr = conv_num.split(",");
+						var conv_num_arr = conv_num.split(".");
 						conv_num0 = conv_num_arr[0];
 						do{
 							var rest = conv_num0%conv_base;
@@ -114,7 +190,7 @@
 							}while(conv_num0 != 0);							
 //Nachkommastellen umrechnen, falls nötig
 						if(conv_num_arr.length>1){
-							new_conv_num.push(",");
+							new_conv_num.push(".");
 							var new_conv_num1 = new Array();
 							conv_num1 = Number("0." + conv_num_arr[1]);
 							do{
@@ -130,16 +206,12 @@
 //Fügt Vor- & Nachkommastellen zusammen
 							new_conv_num = new_conv_num.concat(new_conv_num1);
 						}
-//						alert(new_conv_num.length + " foo " +!!!!! new_conv_num + " bar " + conv_num + " baz " + conv_num.length);
-						conv_num = new_conv_num.join("");
-						
+						conv_num = new_conv_num.join("").replace(".",",");					
 						}
-//~ falls Nachkommazahl gerundet
-					document.getElementById("text1").innerHTML="<p>Bitte gib eine Zahl ein, die umgerechnet werden soll:</p>";
+					document.getElementById("text1").innerHTML="<p>Bitte gib eine Zahl ein, die in eine andere Basis umgerechnet werden soll:</p>";
 					document.getElementById("text2").innerHTML="<p id='ergebnis'>Ergebnis:<br /></p><p id='ausgabe'>(" + number + ")<sub>"+ base + "</sub> = " + circa + "(" + conv_num + ")<sub>" + conv_base + "</sub></p>";					
 					}
-				}
-			
+				}		
 		</script>
 	</div>
 </body>
