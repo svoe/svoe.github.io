@@ -41,6 +41,38 @@
 		<p id="text2"></p>
 
 		<script>
+			<!DOCTYPE html>
+<html>
+<head>
+	<title>Konvertierungsprogramm</title>
+	<link rel="stylesheet" href="HA_LF6_1.css" />
+</head>
+<body>
+	<div id="main">
+		<h1>Konvertierungsprogramm</h1>
+		<p>Hausaufgabe Lernfeld 6</p>
+		<hr>
+		<p id="text1">Bitte gib eine Zahl ein, die umgerechnet werden soll:</p>
+		<form name="eingabe">
+			<p>Zahl:</p>
+			<input type="text" name="number" size="10"\><br \>
+			<p>Basis:</p>
+			<select name="base">
+				<option value="2">2</option>
+				<option value="10">10</option>
+				<option value="16">16</option>
+			</select><br \>
+			<p>Ziel-Basis:</p>
+			<select name="conv_base">
+				<option value="2">2</option>
+				<option value="10">10</option>
+				<option value="16">16</option>
+			</select><br \>
+			<button type="button" onClick="convert()">OK</button>
+		</form>
+		<p id="text2"></p>
+
+		<script>
 			function convert(){
 //Variablen
 				var fehler = "";
@@ -86,8 +118,8 @@
 						num_array0 = num_array[0].split("").reverse();
 						var base1 = 1;
 						for(var i=0;i<num_array0.length;i++){
-							conv_num = alphabet.indexOf(num_array0[i])*base1+conv_num;
-							base1 = base * base1;
+							conv_num += alphabet.indexOf(num_array0[i])*base1;
+							base1 *= base;
 						}						
 //Nachkommastellen ausrechnen, falls vorhanden
 						if (num_array.length > 1) {
@@ -100,12 +132,15 @@
 						}
 					}else{
 						var conv_num = number;
-					}					
+					}		
+						alert(typeof(conv_num) + conv_num);					
 //In Ziel-Base umrechnen, falls nötig
 					var new_conv_num = new Array();
 					if (conv_base != 10){
 						var conv_num0 = 0;
 						conv_num = conv_num.toString();
+						conv_num = conv_num.replace(".",",");
+						alert(typeof(conv_num) + conv_num);	
 						var conv_num_arr = conv_num.split(",");
 						conv_num0 = conv_num_arr[0];
 						do{
@@ -132,7 +167,9 @@
 //Fügt Vor- & Nachkommastellen zusammen
 							new_conv_num = new_conv_num.concat(new_conv_num1);
 						}
+//						alert(new_conv_num.length + " foo " +!!!!! new_conv_num + " bar " + conv_num + " baz " + conv_num.length);
 						conv_num = new_conv_num.join("");
+						
 						}
 //~ falls Nachkommazahl gerundet
 					document.getElementById("text1").innerHTML="<p>Bitte gib eine Zahl ein, die umgerechnet werden soll:</p>";
@@ -140,6 +177,10 @@
 					}
 				}
 			
+		</script>
+	</div>
+</body>
+</html>
 		</script>
         </div>
 </body>
